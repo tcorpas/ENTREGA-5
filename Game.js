@@ -17,6 +17,7 @@ class Game {
         this.opponentShots = []; // Disparos del oponente
         this.xDown = null; //  Posición en la que el usuario ha tocado la pantalla
         this.paused = false; // Indica si el juego está pausado
+        this.score = 0; //Puntuacion inicial a 0
     }
 
     /**
@@ -89,7 +90,12 @@ class Game {
         if (this.opponent) {
             document.body.removeChild(this.opponent.image);
         }
-        this.opponent = new Opponent(this);
+
+        if (this.opponent instanceof Opponent && this.score >= 1) {
+            this.opponent = new Boss(this); // Aparece el jefe final (Boss)
+          } else {
+            this.opponent = new Opponent(this);
+          }
     }
 
     /**
@@ -207,7 +213,22 @@ class Game {
      */
     endGame () {
         this.ended = true;
-        let gameOver = new Entity(this, this.width / 2, "auto", this.width / 4, this.height / 4, 0, GAME_OVER_PICTURE)
+        let gameOverImageSrc = GAME_OVER_PICTURE;
+
+    if (this.player.lives > 0) {
+      // El jugador ha ganado, se muestra la imagen "you_win.png"
+      gameOverImageSrc = YOU_WIN_PICTURE;
+    }
+
+    let gameOver = new Entity(
+      this,
+      this.width / 2,
+      "auto",
+      this.width / 4,
+      this.height / 4,
+      0,
+      gameOverImageSrc
+    )
         gameOver.render();
     }
 
@@ -254,4 +275,11 @@ class Game {
             shot.render();
         });
     }
+    /*
+    Actualiza el score
+    */
+    updateScore() {
+        document.getElementById("scoreli").innerHTML = `Score: ${this.score}`;
+      }
+      
 }

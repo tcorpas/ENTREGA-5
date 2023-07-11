@@ -67,6 +67,7 @@ class Opponent extends Character {
         if (!this.dead) {
             setTimeout(() => {
                 this.game.removeOpponent();
+                this.game.score += 1;
             }, 2000);
             super.collide();
         }

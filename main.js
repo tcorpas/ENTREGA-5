@@ -17,7 +17,14 @@ const OPPONENT_HEIGHT = 5,
     SHOT_SPEED = 20,
     SHOT_PICTURE_PLAYER = "assets/shot1.png",
     SHOT_PICTURE_OPPONENT = "assets/shot2.png",
-    SHOT_WIDTH = 1.5;
+    SHOT_WIDTH = 1.5,
+    YOU_WIN_PICTURE = "assets/you_win.png",
+    BOSS_HEIGHT = 4,
+    BOSS_WIDTH = 9,
+    BOSS_PICTURE = "assets/jefe.png"
+    BOSS_PICTURE_DEAD = "assets/jefe_muerto.png"
+    INITIAL_LIVES = 3;
+
 
 function getRandomNumber (range) {
     return Math.floor(Math.random() * range);
@@ -33,5 +40,7 @@ var game;
 document.addEventListener("DOMContentLoaded", () => {
         game = new Game();
         game.start();
+        document.getElementById("scoreli").innerHTML = `Score: ${game.score}`;
+        document.getElementById("livesli").innerHTML = `Lives: ${game.player.lives}`;
     }
 );

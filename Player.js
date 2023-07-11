@@ -15,7 +15,7 @@ class Player extends Character {
             speed = PLAYER_SPEED,
             myImage = PLAYER_PICTURE,
             myImageDead = PLAYER_PICTURE_DEAD;
-
+        this.lives =INITIAL_LIVES;
         super(game, width, height, x, y, speed, myImage, myImageDead);
     }
 
@@ -47,10 +47,29 @@ class Player extends Character {
      */
     collide() {
         if (!this.dead) {
-            setTimeout(() => {
-                this.game.endGame();
-            }, 2000);
-            super.collide();
+            this.lives -= 1; // Restar una vida
+
+            if (this.lives > 0) {
+                // El jugador aún tiene vidas restantes
+
+                setTimeout(() => {
+                    this.image.src = this.myImage; // Restaurar la imagen original
+                    this.dead = false; // El jugador vuelve a estar vivo
+                }, 2000);
+
+                super.collide(); // Llama al método collide de la superclase
+
+            } else {
+                // El jugador no tiene vidas restantes
+
+                setTimeout(() => {
+                    this.game.endGame();
+                }, 2000);
+
+                super.collide(); // Llama al método collide de la superclase
+            }
         }
+        document.getElementById("livesli").innerHTML = `Lives: ${this.lives}`;
     }
+
 }
