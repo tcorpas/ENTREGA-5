@@ -71,6 +71,6 @@ class Opponent extends Character {
             }, 2000);
             super.collide();
         }
-
+        document.getElementById("scoreli").innerHTML = `Score: ${this.game.score}`;
     }
 }

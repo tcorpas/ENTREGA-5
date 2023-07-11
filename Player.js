@@ -15,8 +15,8 @@ class Player extends Character {
             speed = PLAYER_SPEED,
             myImage = PLAYER_PICTURE,
             myImageDead = PLAYER_PICTURE_DEAD;
-        this.lives =INITIAL_LIVES;
-        super(game, width, height, x, y, speed, myImage, myImageDead);
+        this.lives = INITIAL_LIVES;
+        super(game, width, height, x, y, speed, myImage, myImageDead,this.lives);
     }
 
     /**
