@@ -28,8 +28,8 @@ class Boss extends Opponent {
   
     collide() {
       if (!this.dead) {
+        document.getElementById("livesli").innerHTML = `Lives: ${this.lives}`;
         this.lives -= 1;
-  
         if (this.lives > 0) {
           setTimeout(() => {
             this.image.src = this.myImage;

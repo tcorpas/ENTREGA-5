@@ -86,17 +86,19 @@ class Game {
     /**
      * Elimina al oponente del juego
      */
-    removeOpponent () {
-        if (this.opponent) {
-            document.body.removeChild(this.opponent.image);
+    removeOpponent() {
+        if (this.opponent instanceof Opponent) {
+          // Eliminar al oponente inicial
+          document.body.removeChild(this.opponent.image);
+        } else if (this.opponent instanceof Boss) {
+          // Eliminar al jefe final
+          document.body.removeChild(this.opponent.image);
         }
-
-        if (this.opponent instanceof Opponent && this.score >= 1) {
-            this.opponent = new Boss(this); // Aparece el jefe final (Boss)
-          } else {
-            this.opponent = new Opponent(this);
-          }
-    }
+      
+        // Crear una instancia de Boss como nuevo oponente
+        this.opponent = new Boss(this);
+      }
+      
 
     /**
      * Comprueba la tecla que está pulsando el usuario
@@ -211,26 +213,12 @@ class Game {
     /**
      * Termina el juego
      */
-    endGame () {
+    endGame() {
         this.ended = true;
-        let gameOverImageSrc = GAME_OVER_PICTURE;
-
-    if (this.player.lives > 0) {
-      // El jugador ha ganado, se muestra la imagen "you_win.png"
-      gameOverImageSrc = YOU_WIN_PICTURE;
-    }
-
-    let gameOver = new Entity(
-      this,
-      this.width / 2,
-      "auto",
-      this.width / 4,
-      this.height / 4,
-      0,
-      gameOverImageSrc
-    )
-        gameOver.render();
-    }
+        let gameOverImage = new Entity(this, this.width / 2, "auto", this.width / 4, this.height / 4, 0, this.player.lives > 0 ? YOU_WIN_PICTURE : GAME_OVER_PICTURE);
+        gameOverImage.render();
+      }
+      
 
     /**
      * resetea el juego
@@ -256,6 +244,7 @@ class Game {
                 shot.update();
             });
             this.checkCollisions();
+            this.updateScoreAndLives();
             this.render();
         }
     }
@@ -276,10 +265,14 @@ class Game {
         });
     }
     /*
-    Actualiza el score
+    Actualiza el score y lives
     */
-    updateScore() {
-        document.getElementById("scoreli").innerHTML = `Score: ${this.score}`;
-      }
+    updateScoreAndLives() {
+        const scoreElement = document.getElementById("scoreli");
+        const livesElement = document.getElementById("livesli");
+      
+        scoreElement.innerHTML = `Score: ${this.score}`;
+        livesElement.innerHTML = `Lives: ${this.player.lives}`;
+    }
       
 }

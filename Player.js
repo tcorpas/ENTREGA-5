@@ -47,11 +47,12 @@ class Player extends Character {
      */
     collide() {
         if (!this.dead) {
+            document.getElementById("livesli").innerHTML = `Lives: ${this.lives}`;
             this.lives -= 1; // Restar una vida
-
             if (this.lives > 0) {
                 // El jugador aún tiene vidas restantes
-
+                this.dead = true; // El jugador está muerto
+                this.image.src = this.myImageDead; // Cambia la imagen del jugador a la imagen de muerte
                 setTimeout(() => {
                     this.image.src = this.myImage; // Restaurar la imagen original
                     this.dead = false; // El jugador vuelve a estar vivo
@@ -69,7 +70,6 @@ class Player extends Character {
                 super.collide(); // Llama al método collide de la superclase
             }
         }
-        document.getElementById("livesli").innerHTML = `Lives: ${this.lives}`;
     }
 
 }
